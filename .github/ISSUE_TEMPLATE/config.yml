@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question / How do I…?
+    url: https://github.com/PieterVI1/LedMapper/discussions/categories/q-a
+    about: Ask in Discussions instead of filing an issue — faster for both of us.
+  - name: Share a project / setup
+    url: https://github.com/PieterVI1/LedMapper/discussions/categories/show-and-tell
+    about: Built something cool with LED Mapper? Show it off here.
+  - name: Documentation
+    url: https://github.com/PieterVI1/LedMapper#documentation
+    about: Before filing a bug, skim the docs for a matching answer.

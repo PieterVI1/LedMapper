@@ -1,0 +1,13 @@
+# OS noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*~
+
+# Editor junk
+.vscode/
+.idea/
+
+# Claude Code workspace
+.claude/

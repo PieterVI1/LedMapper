@@ -1,0 +1,41 @@
+title: "[Q] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a quick question about setup, workflow, or an unexpected result?
+        Drop it here. For reproducible bugs, please open an
+        [issue](https://github.com/PieterVI1/LedMapper/issues/new/choose)
+        instead.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: What are you trying to do
+      description: Describe the goal — not just the specific thing that's confusing.
+      placeholder: "I'm trying to drive a curved LED wall via nDisplay and…"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What you've tried
+      description: Anything you've already explored or checked in the docs.
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: LED Mapper version
+      placeholder: "1.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: engine-version
+    attributes:
+      label: Unreal Engine version
+      placeholder: "5.7.0"
+    validations:
+      required: true
