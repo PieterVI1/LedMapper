@@ -44,7 +44,6 @@ You just pick which mode at asset-creation time.
 ## Report a problem or ask a question
 
 - **Bug** → [Open an issue](../../issues/new/choose)
-- **Question, idea, or showcase** → [Discussions](../../discussions)
 
 Before filing, please search open issues and discussions to avoid duplicates.
 Good bug reports include your Unreal version, plugin version, OS, and
