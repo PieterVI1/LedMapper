@@ -15,7 +15,7 @@ asset system and speaks nDisplay + post-process materials.
 
 ## Get the plugin
 
-- **Install via Fab** — *link will be posted here once the listing is live*
+- **Install via Fab** — https://www.fab.com/listings/49f2c5e9-1385-4275-b639-9d216b174830
 - **Release notes** — [CHANGELOG.md](CHANGELOG.md)
 - **Supported engine**: Unreal Engine 5.7+, Windows
 
