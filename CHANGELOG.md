@@ -7,6 +7,74 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.3.0] — 2026-04-21
+
+Makes the 3D preview viewport interactive — click-to-select + a transform
+gizmo on the selected slice — and adds a single combined mesh per screen
+to the 3D generation path.
+
+### Added
+- **Combined per-screen mesh on Generate Meshes.** Alongside the
+  per-slice `SM_*` assets, each screen now also produces a single
+  `<ScreenName>_Combined` static mesh with every visible slice's quad
+  baked into one geometry using that slice's `WorldTransform`. Drop the
+  combined mesh at origin and the whole wall appears assembled. Shares
+  the per-screen material instance.
+- **`bGenerateIndividualMesh` honored.** Slices with the flag cleared
+  are skipped for individual asset generation but still appear in the
+  combined mesh. Uncheck it on every slice to get a single combined
+  asset as the sole generated mesh.
+- **Click-to-select in the 3D preview viewport.** Left-click any slice's
+  mesh → primary selection updates; click empty space → deselect. Layers,
+  Details, Output canvas all follow. Implemented via `AStaticMeshActor`
+  + standard `HActor` hit proxies.
+- **Transform gizmo on the selected slice.** Standard UE translate (W)
+  and rotate (E) gizmos operate on the slice's `WorldTransform`. Drag
+  is wrapped in one scoped transaction so Ctrl+Z reverts the whole
+  manipulation. World / local coord-space toggle via the usual shortcut.
+  Scale is ignored by design (pixel pitch drives panel size).
+- **Viewport toolbar overlay.** An `SSegmentedControl` in the top-left
+  of the 3D preview toggles between translate and rotate modes without
+  needing the keyboard. Pressing W / E on the keyboard also updates
+  the control.
+
+### Changed
+- **3D preview now uses `AStaticMeshActor`s** instead of bare
+  `UStaticMeshComponent`s. Actors give us native hit proxies for
+  click-to-select with no extra scaffolding.
+- **`OnLayoutChanged` resyncs preview-actor transforms** instead of
+  forcing a full mesh rebuild. Editing `WorldTransform` in the Details
+  panel now moves the preview mesh live; only `OnGeometryChanged`
+  (size / pitch / add / remove) still triggers the full rebuild.
+
+### Fixed
+- 3D-viewport click-selection was silently broken: `ProcessClick`
+  guarded on `Event == IE_Pressed`, but UE routes click events as
+  `IE_Released` in most paths. The cursor would turn into a cross on
+  hover (hit proxy detected) but clicks never fired selection. Now
+  triggers on any left-click regardless of event.
+- `FEditorViewportClient::SetWidgetMode` was being called in the
+  subclass constructor, before `Viewport` is assigned by
+  `SEditorViewport::Construct` — caused a null-deref inside
+  `IsFlightCameraActive`. Deferred to the first tick.
+- Migrated the viewport toolbar from the now-`final`
+  `SEditorViewport::MakeViewportToolbar` to `PopulateViewportOverlays`
+  (the UE 5.x successor API) so the plugin builds on 5.7.
+
+### Internal
+- New `FLedPreviewViewportClient` overrides `GetWidgetLocation`,
+  `GetWidgetCoordSystem`, `InputWidgetDelta`, `TrackingStarted`, and
+  `TrackingStopped` to drive gizmo manipulation against
+  `ULedMapperState`.
+- `SliceActors[]` parallel array on `SLedPreviewViewport` keyed by
+  slice index so the client can look up actors for live transform
+  updates during drag without a map lookup.
+- New `FLedMeshBuilder::BuildCombinedMesh` — one polygon group, all
+  slices pre-transformed by their `WorldTransform`, normals rotated via
+  `TransformVectorNoScale` so scale on the transform doesn't corrupt them.
+
+---
+
 ## [1.2.0] — 2026-04-20
 
 First Fab / Unreal Marketplace release. Substantial additions to editing
